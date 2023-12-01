@@ -75,7 +75,9 @@ const alt = useKeyModifier("Alt");
             :animation="150"
           >
             <template #item="{ element: task }: { element: Task }">
-              <TrelloBoardTask :task="task" />
+              <div>
+                <TrelloBoardTask :task="task" />
+              </div>
             </template>
           </draggable>
 
@@ -87,3 +89,18 @@ const alt = useKeyModifier("Alt");
     </draggable>
   </div>
 </template>
+
+<style scoped>
+.sortable-drag .task {
+  transform: rotate(5deg);
+}
+
+.sortable-ghost .task {
+  position: relative;
+}
+
+.sortable-ghost .task::after {
+  content: "";
+  @apply absolute top-0 left-0 right-0 bg-red-300 rounded;
+}
+</style>
