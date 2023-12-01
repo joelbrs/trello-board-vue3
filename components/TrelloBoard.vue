@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { nanoid } from "nanoid";
 import draggable from "vuedraggable";
-import type { Column } from "~/types";
+import type { Column, Task } from "~/types";
 
 const columns: Ref<Column[]> = ref([
   {
@@ -11,6 +11,16 @@ const columns: Ref<Column[]> = ref([
       {
         id: nanoid(),
         title: "Create marketing landing page",
+        createdAt: new Date(),
+      },
+      {
+        id: nanoid(),
+        title: "Develop cool feature",
+        createdAt: new Date(),
+      },
+      {
+        id: nanoid(),
+        title: "Fix page nav bug",
         createdAt: new Date(),
       },
     ],
@@ -36,6 +46,8 @@ const columns: Ref<Column[]> = ref([
     tasks: [],
   },
 ]);
+
+const alt = useKeyModifier("Alt");
 </script>
 
 <template>
@@ -55,11 +67,17 @@ const columns: Ref<Column[]> = ref([
             {{ column.title }}
           </header>
 
-          <TrelloBoardTask
-            v-for="task in column.tasks"
-            :key="task.id"
-            :task="task"
-          />
+          <draggable
+            v-model="column.tasks"
+            item-key="id"
+            handle=".drag-handler"
+            :group="{ name: 'tasks', pull: alt ? 'clone' : true }"
+            :animation="150"
+          >
+            <template #item="{ element: task }: { element: Task }">
+              <TrelloBoardTask :task="task" />
+            </template>
+          </draggable>
 
           <footer>
             <button class="text-gray-500">+ Add a Card</button>
