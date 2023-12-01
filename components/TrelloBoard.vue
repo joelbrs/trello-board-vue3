@@ -44,11 +44,14 @@ const columns: Ref<Column[]> = ref([
       v-model="columns"
       item-key="id"
       group="columns"
+      :animation="150"
+      handle=".drag-handler"
       class="flex gap-4 overflow-x-auto items-start"
     >
       <template #item="{ element: column }: { element: Column }">
         <div class="column bg-gray-200 p-5 rounded min-w-[250px]">
           <header class="font-bold mb-4">
+            <DragHandle />
             {{ column.title }}
           </header>
 
